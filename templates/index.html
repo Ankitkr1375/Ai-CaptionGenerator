@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Vision Assistant | Audio Image Captioning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <head>
+        <!-- Add this line -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+        
+        <!-- Your existing links -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- Add the new stylesheet -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/modern-style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
+</head>
+<body class="light-mode">
+    <!-- Skip to content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="theme-toggle" aria-label="Theme toggle control">
+        <button id="theme-toggle-btn" aria-label="Toggle dark/light mode">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+            <span class="sr-only">Switch to dark mode</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>AI Vision Assistant</h1>
+            <p>Upload an image to receive detailed audio descriptions</p>
+        </header>
+
+        <main id="main-content">
+            <div class="upload-section">
+                <div class="drop-area" id="drop-area" tabindex="0" role="button" aria-label="Upload image area. Click or drag and drop an image here.">
+                    <form id="image-form" enctype="multipart/form-data">
+                        <input type="file" id="fileInput" name="file" accept="image/*" hidden aria-hidden="true">
+                        <div class="drop-message">
+                            <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                            <p>Drag & drop an image or click to browse</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="enhance-option">
+                <div class="switch-container">
+                    <label for="enhance-toggle" class="toggle-label">
+                        <input type="checkbox" id="enhance-toggle" checked>
+                        <span class="toggle-switch"></span>
+                        <span class="toggle-text">Enhance caption with AI</span>
+                    </label>
+                    <div class="tooltip" id="enhance-tooltip">
+                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        <span class="tooltip-text">Creates more detailed and descriptive captions for better understanding</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section" id="results-section" style="display: none;" aria-live="polite">
+                <div class="result-container">
+                    <div class="image-container">
+                        <img id="uploaded-image" src="" alt="Uploaded image">
+                    </div>
+                    <div class="caption-container">
+                        <h2>Image Description</h2>
+                        <div class="caption-box">
+                            <div class="caption-toggle" role="tablist">
+                                <button class="caption-tab active" data-target="original-caption" role="tab" aria-selected="true" id="tab-original">Basic</button>
+                                <button class="caption-tab" data-target="improved-caption" role="tab" aria-selected="false" id="tab-enhanced">Enhanced</button>
+                            </div>
+                            <div class="caption-content">
+                                <p id="original-caption" class="active" role="tabpanel" aria-labelledby="tab-original"></p>
+                                <p id="improved-caption" role="tabpanel" aria-labelledby="tab-enhanced"></p>
+                            </div>
+                        </div>
+                        <div class="audio-controls">
+                            <audio id="caption-audio" controls></audio>
+                            <div class="button-group">
+                                <button id="play-audio" class="action-button primary">
+                                    <i class="fas fa-play" aria-hidden="true"></i> Play Description
+                                </button>
+                                <button id="download-audio" class="action-button secondary">
+                                    <i class="fas fa-download" aria-hidden="true"></i> Download Audio
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="loading-indicator" id="loading-indicator" style="display: none;" aria-live="polite">
+                <div class="spinner" aria-hidden="true"></div>
+                <p>Analyzing your image...</p>
+            </div>
+
+            <div class="no-api-notice" id="no-api-notice" style="display: none;">
+                <div class="notice-content">
+                    <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                    <p>Enhanced descriptions are currently unavailable. Using basic descriptions instead.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>AI Vision Assistant - Empowering accessibility through technology</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Accessibility Statement</a>
+                <a href="#" class="footer-link">Contact Support</a>
+            </div>
+        </footer>
+    </div>
+    <!-- Add this before the closing </body> tag in index.html -->
+<div class="chatbot-container">
+    <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Open chatbot">
+        <i class="fas fa-robot" aria-hidden="true"></i>
+        <span class="sr-only">Chat with AI Assistant</span>
+    </button>
+    <div class="chatbot-window" id="chatbot-window">
+        <div class="chatbot-header">
+            <h3>AI Assistant</h3>
+            <button id="chatbot-close" class="chatbot-close" aria-label="Close chatbot">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input-field" placeholder="Ask me anything..." aria-label="Type your question">
+            <button id="chatbot-send" aria-label="Send message">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
