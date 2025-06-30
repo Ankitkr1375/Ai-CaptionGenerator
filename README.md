@@ -19,15 +19,17 @@ AI-CaptionGenerator is a powerful web application built with Flask that allows u
   - “**How do I use this app?**”
   - “**Who created you?**”
   - and more...
-
+    
+- 🌗 **Day/Night Mode Toggle**  
+  Easily switch between **light** and **dark themes** to suit your environment and preferences.
 ## 🚀 Getting Started
 
 ### 🔧 Local Setup
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/Ankitkr1375/ai-captiongenerator.git
-   cd ai-captiongenerator
+   git clone https://github.com/Ankitkr1375/Ai-CaptionGenerator.git
+   cd Ai-CaptionGenerator
 2. **Install requirements**
     pip install -r requirements.txt
 3. **Running the Web app**
