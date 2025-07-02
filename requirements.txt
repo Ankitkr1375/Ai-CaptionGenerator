@@ -6,3 +6,4 @@ torch==2.1.0
 python-dotenv==1.0.0
 google-generativeai==0.3.1
 gTTS==2.3.2
+python==3.1
